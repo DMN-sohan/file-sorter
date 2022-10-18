@@ -1,9 +1,11 @@
-import os, shutil, time, json
+import os, shutil, time, json, datetime
 
 downloads_path = "C:\\Users\\Sohan\\Downloads"
 
 def check_type(full_path):
     return_type = {
+        ".xls" : "excel_path",
+        ".xlsx" : "excel_path",
         ".pdf" : "pdf_path",
         ".docx" : "doc_path",
         ".pptx" : "ppt_path",
@@ -12,7 +14,7 @@ def check_type(full_path):
         ".zip" : "zip_path",
         ".rar" : "zip_path", 
         ".tar.gz" : "zip_path",
-        ".HEIC" : "image_path", 
+        ".heic" : "image_path", 
         ".jpg" : "image_path", 
         ".png" : "image_path", 
         ".ico" : "image_path", 
@@ -45,13 +47,17 @@ def check_directory(path):
 def move_file(start_path,end_path):
     try:
         shutil.move(start_path,end_path)
+        with open(os.path.join(downloads_path,"log.txt"),"a") as f:
+            f.write(f"{datetime.datetime.now()} : Moving {file} into {paths[check_type(file)]}\n")
     except:
-        pass
+        with open(os.path.join(downloads_path,"log.txt"),"a") as f:
+            f.write(f"{datetime.datetime.now()} : Moving {file} into {paths[check_type(file)]} FAILED\n")
 
 def folders_do_exist():
     with open("path.json","r") as f:
         global paths
         paths = json.loads(f.readline())
+        paths = {k:os.path.join(downloads_path,v) for k,v in paths.items()}
 
     for i in paths.values():
         if not os.path.exists(i):
@@ -66,11 +72,9 @@ folders_do_exist()
 while True:
     time.sleep(5)
     files = [i for i in os.listdir(downloads_path) if not check_directory(i)]
-    for file in files:
-        with open(os.path.join(downloads_path,"log.txt"),"a") as f:
-            f.write(f"Moving {file} into {paths[check_type(file)]}\n")
+    
+    if files == []:
+        break
+    
+    for file in files:        
         move_file(os.path.join(downloads_path,file),paths[check_type(file)])
-
-
-
-
