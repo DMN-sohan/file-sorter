@@ -70,11 +70,16 @@ def folders_do_exist():
 folders_do_exist()
 
 while True:
-    time.sleep(5)
+    #time.sleep(5)
     files = [i for i in os.listdir(downloads_path) if not check_directory(i)]
     
     if files == []:
         break
     
-    for file in files:        
+    for file in files:
+        
         move_file(os.path.join(downloads_path,file),paths[check_type(file)])
+
+
+
+
