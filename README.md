@@ -1,4 +1,5 @@
-# File-Sorter v1.7
+# File-Sorter v1.9
+
 This is the first rendition of my custom made File-Sorter.<br> 
 It is simple to install, just click on <b><i>Code</b></i> and then <b><i>Download ZIP</b></i><br> 
 Extract the .zip file and run <b><i>file-sorter.exe</b></i>
